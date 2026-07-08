@@ -1,10 +1,106 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Мой первый сайт на GitHub</title>
-  </head>
-  <body>
-    <h1>Привет, мир!</h1>
-    <p>Мой сайт работает на GitHub Pages.</p>
-  </body>
-</html>
+<meta charset="UTF-8">
+<title>Информация об устройстве</title>
+
+<style>
+
+body{
+background:#0f172a;
+color:white;
+font-family:Arial;
+text-align:center;
+padding:40px;
+}
+
+.container{
+background:#1e293b;
+padding:30px;
+border-radius:15px;
+max-width:500px;
+margin:auto;
+}
+
+p{
+font-size:18px;
+margin:10px;
+}
+
+h1{
+margin-bottom:30px;
+}
+
+</style>
+
+
+
+
+<div class="container">
+
+<h1>Информация о вашем устройстве</h1>
+
+<p><b>🌍 Страна:</b> <span id="country">загрузка...</span></p>
+<p><b>🌐 IP:</b> <span id="ip">загрузка...</span></p>
+<p><b>💻 ОС:</b> <span id="os"></span></p>
+<p><b>🌐 Браузер:</b> <span id="browser"></span></p>
+<p><b>📱 Устройство:</b> <span id="device"></span></p>
+<p><b>🧠 Ядра CPU:</b> <span id="cpu"></span></p>
+<p><b>💾 RAM:</b> <span id="ram"></span></p>
+<p><b>🖥 Экран:</b> <span id="screen"></span></p>
+<p><b>🔋 Батарея:</b> <span id="battery">загрузка...</span></p>
+<p><b>📡 Онлайн:</b> <span id="online"></span></p>
+
+</div>
+
+<script>
+
+// ОС
+document.getElementById("os").textContent = navigator.platform;
+
+// браузер
+document.getElementById("browser").textContent = navigator.userAgent;
+
+// устройство
+if(/Mobi|Android/i.test(navigator.userAgent)){
+document.getElementById("device").textContent = "Мобильное устройство";
+}else{
+document.getElementById("device").textContent = "Компьютер";
+}
+
+// CPU
+document.getElementById("cpu").textContent = navigator.hardwareConcurrency + " ядер";
+
+// RAM
+if(navigator.deviceMemory){
+document.getElementById("ram").textContent = navigator.deviceMemory + " GB (примерно)";
+}else{
+document.getElementById("ram").textContent = "неизвестно";
+}
+
+// экран
+document.getElementById("screen").textContent =
+screen.width + " x " + screen.height;
+
+// онлайн
+document.getElementById("online").textContent =
+navigator.onLine ? "Да" : "Нет";
+
+
+// батарея
+if(navigator.getBattery){
+navigator.getBattery().then(function(battery){
+document.getElementById("battery").textContent =
+Math.floor(battery.level*100) + "%";
+});
+}else{
+document.getElementById("battery").textContent = "не поддерживается";
+}
+
+
+// IP и страна
+fetch("https://ipapi.co/json/")
+.then(res => res.json())
+.then(data=>{
+document.getElementById("country").textContent = data.country_name;
+document.getElementById("ip").textContent = data.ip;
+});
+
+</script>
